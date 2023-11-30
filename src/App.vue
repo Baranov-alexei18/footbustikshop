@@ -1,10 +1,17 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <AppShop></AppShop>
 </template>
+
+<script>
+import AppShop from '@/AppShop.vue'
+
+export default {
+  name: 'HomeView',
+  components: {
+    AppShop
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
