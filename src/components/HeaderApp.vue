@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-    <div class="container-fluid">
+    <div class="container">
       <LogoApp />
 
       <button
@@ -37,9 +37,9 @@
             </a>
             <ul class="dropdown-menu">
               <li v-for="region of regions" :key="region">
-                <router-link class="dropdown-item" to="/stadium"
-                  >{{region}}</router-link
-                >
+                <router-link class="dropdown-item" to="/stadium">{{
+                  region
+                }}</router-link>
               </li>
             </ul>
           </li>
@@ -56,13 +56,12 @@
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-light" type="submit">Поиск</button>
+          <v-btn class="my-auto">Поиск</v-btn>
         </form>
       </div>
-      <div class="col-1">
-        <form class="d-flex mx-auto" role="search">
-          <button class="btn btn-outline-light" type="submit">Войти</button>
-        </form>
+      <div class="d-flex">
+        <v-btn class="my-auto">Войти</v-btn>
+        <AvatarApp></AvatarApp>
       </div>
     </div>
   </nav>
@@ -70,9 +69,10 @@
 
 <script>
 import LogoApp from "./ui-component/LogoApp.vue";
+import AvatarApp from "./ui-component/AvatarApp.vue";
 
 export default {
-  components: { LogoApp },
+  components: { LogoApp, AvatarApp },
   data() {
     return {
       regions: [
