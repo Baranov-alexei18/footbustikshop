@@ -56,7 +56,12 @@
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-light" type="submit">Search</button>
+          <button class="btn btn-outline-light" type="submit">Поиск</button>
+        </form>
+      </div>
+      <div class="col-1">
+        <form class="d-flex mx-auto" role="search">
+          <button class="btn btn-outline-light" type="submit">Войти</button>
         </form>
       </div>
     </div>
