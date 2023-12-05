@@ -1,10 +1,6 @@
 <template>
   <HeaderApp></HeaderApp>
-  <router-view />
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <router-view class="view" />
   <FooterApp></FooterApp>
 </template>
   
@@ -22,5 +18,8 @@ export default {
 </script>
 
 <style lang="scss">
+.view {
+  background: conic-gradient(at 0% 50%,yellow 15%,rgb(111, 255, 0) 20%, #1e90ff 50%);
+}
 </style>
   

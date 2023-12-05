@@ -23,7 +23,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#/about">Менеджерам</a>
+            <a class="nav-link" href="/manager">Менеджерам</a>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -36,43 +36,15 @@
               Стадионы
             </a>
             <ul class="dropdown-menu">
-              <li>
-                <router-link class="dropdown-item" to="/">Минск</router-link>
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/"
-                  >Минская область</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/"
-                  >Витебская область</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/"
-                  >Могилевская область</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/"
-                  >Гомельская область</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/"
-                  >Брестская область</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/"
-                  >Гродненская область</router-link
+              <li v-for="region of regions" :key="region">
+                <router-link class="dropdown-item" to="/stadium"
+                  >{{region}}</router-link
                 >
               </li>
             </ul>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/about">FAQ</router-link>
+            <router-link class="nav-link" to="/question">FAQ</router-link>
           </li>
         </ul>
       </div>
@@ -94,7 +66,22 @@
 <script>
 import LogoApp from "./ui-component/LogoApp.vue";
 
-export default { components: { LogoApp } };
+export default {
+  components: { LogoApp },
+  data() {
+    return {
+      regions: [
+        "Минск",
+        "Минская область",
+        "Витебская область",
+        "Могилевская область",
+        "Гомельская область",
+        "Брестская область",
+        "Гродненская область",
+      ],
+    };
+  },
+};
 </script>
 
 <style>

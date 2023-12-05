@@ -7,7 +7,7 @@
       class="container d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
     >
       <div class="d-none d-lg-block my-auto">
-        <span>Свяитесь с нами с помощью социальных сетей:</span>
+        <span>Свяжитесь с нами с помощью социальных сетей:</span>
       </div>
       <div>
         <SocialIconsGroup></SocialIconsGroup>
@@ -38,30 +38,24 @@
               <router-link to="/" class="text-reset">FAQ</router-link>
             </p>
           </div>
-          <!-- Grid column -->
 
-          <!-- Grid column -->
           <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold mb-4">Испольуемые технологии</h6>
+            <h6 class="text-uppercase fw-bold mb-4">Стек технологий</h6>
             <p>
-              <router-link to="/" class="text-reset">Pricing</router-link>
+              <router-link to="/" class="text-reset">Vue.js</router-link>
             </p>
             <p>
-              <router-link to="/" class="text-reset">Settings</router-link>
+              <router-link to="/" class="text-reset">Vue-Router</router-link>
             </p>
             <p>
-              <router-link to="/" class="text-reset">Orders</router-link>
+              <router-link to="/" class="text-reset">Axios</router-link>
             </p>
             <p>
-              <router-link to="/" class="text-reset">Help</router-link>
+              <router-link to="/" class="text-reset">Bootstrap</router-link>
             </p>
           </div>
-          <!-- Grid column -->
 
-          <!-- Grid column -->
           <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <!-- Links -->
             <h6 class="text-uppercase fw-bold mb-4">Наши контакты</h6>
             <p>Республика Беларусь, г. Минск</p>
             <p>alexei-baranov18@mail.ru</p>
