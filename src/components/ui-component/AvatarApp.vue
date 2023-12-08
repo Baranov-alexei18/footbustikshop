@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row justify="center">
-      <v-menu min-width="200px" rounded>
+      <v-menu rounded>
         <template v-slot:activator="{ props }">
           <v-btn icon v-bind="props">
             <v-avatar>
@@ -9,22 +9,34 @@
             </v-avatar>
           </v-btn>
         </template>
-        <v-card>
-          <v-card-text>
-            <div class="mx-auto text-center">
-              <v-avatar color="brown">
-                <v-icon icon="mdi-account-circle"></v-icon>
-              </v-avatar>
-              <h3>{{ user.fullName }}</h3>
-              <p class="text-caption mt-1">
-                {{ user.email }}
-              </p>
-              <v-divider class="my-3"></v-divider>
-              <v-btn rounded variant="text"> Edit Account </v-btn>
-              <v-divider class="my-3"></v-divider>
-              <v-btn rounded variant="text"> Disconnect </v-btn>
-            </div>
-          </v-card-text>
+        <v-card min-width="250px" min-height="330px">
+          <v-layout class="wrapper_info_account">
+            <v-list>
+              <v-list-item
+                prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
+                title="John Leider"
+                subtitle="john@google.com"
+              >
+              </v-list-item>
+            </v-list>
+
+            <v-divider></v-divider>
+
+            <v-list :lines="false" density="compact" nav>
+              <v-list-item
+                v-for="(item, i) in items"
+                :key="i"
+                :value="item"
+                color="primary"
+              >
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon"></v-icon>
+                </template>
+
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-layout>
         </v-card>
       </v-menu>
     </v-row>
@@ -32,7 +44,6 @@
 </template>
 
 <script>
-
 export default {
   data: () => ({
     user: {
@@ -40,9 +51,22 @@ export default {
       fullName: "John Doe",
       email: "john.doe@doe.com",
     },
+    items: [
+      { text: "My Files", icon: "mdi-folder" },
+      { text: "Shared with me", icon: "mdi-account-multiple" },
+      { text: "Starred", icon: "mdi-star" },
+      { text: "Recent", icon: "mdi-history" },
+      { text: "Offline", icon: "mdi-check-circle" },
+    ],
   }),
 };
 </script>
 
 <style>
+.wrapper_info_account {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border-radius: 10px;
+}
 </style>

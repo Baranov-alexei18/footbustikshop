@@ -53,9 +53,9 @@ export default {
 
 <style>
 svg:hover {
-  margin-top: -5px;
+  margin-top: -8px;
   width: 30px;
   height: 30px;
-  transition: all 0.5s;
+  transition: all 0.7s;
 }
 </style>

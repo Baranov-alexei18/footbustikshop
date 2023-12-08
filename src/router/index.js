@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ManagerView from '../views/ManagerView.vue'
 import StadiumView from '../views/StadiumView.vue'
 import QuestionView from '../views/QuestionView.vue'
+import SignInView from '../views/SignInView.vue'
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: '/question',
     name: 'question',
     component: QuestionView
+  },
+  {
+    path: '/signIn',
+    name: 'signIn',
+    component: SignInView
   }
 ]
 

@@ -60,7 +60,7 @@
         </form>
       </div>
       <div class="d-flex">
-        <v-btn class="my-auto">Войти</v-btn>
+        <v-btn class="my-auto" to="/signIn">Войти</v-btn>
         <AvatarApp></AvatarApp>
       </div>
     </div>

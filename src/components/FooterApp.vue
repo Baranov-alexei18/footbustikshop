@@ -65,9 +65,9 @@
       </div>
     </section>
 
-    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05)">
+    <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05); font-size: 12px;">
       © 2023 Created using the CSS-framework:
-      <a class="text-reset fw-bold" href="https://mdbootstrap.com/"
+      <a class="text-reset" href="https://mdbootstrap.com/"
         >Bootstrap</a
       >
     </div>
