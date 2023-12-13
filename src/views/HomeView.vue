@@ -1,20 +1,24 @@
 <template>
   <div class="page_home">
     <h1>Главная страница</h1>
+    <div style="max-width: 400px">
+      <DatePickerApp></DatePickerApp>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vue";
 
 export default {
   name: "HomeView",
-  components: {},
+  components: { DatePickerApp },
 };
 </script>
 
 <style>
 .page_home {
-  height: 500px;
+  min-height: 500px;
 }
 </style>

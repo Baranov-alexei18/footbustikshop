@@ -14,10 +14,10 @@
         <v-tab class="col" value="reg">Регистрация</v-tab>
       </v-tabs>
 
-      <v-card-text>
+      <v-card-text class="pb-2">
         <v-window v-model="tab">
           <v-window-item value="auth">
-            <AuthorizationView ></AuthorizationView>
+            <AuthorizationView @toRegistration="toRegistration"></AuthorizationView>
           </v-window-item>
 
           <v-window-item value="reg">
@@ -56,11 +56,15 @@ export default {
       if (valid) alert("Form is valid");
     },
     returnToAuth(value){
-      console.log(1);
       if(value === true){
         this.tab = "auth"
       }
     },
+    toRegistration(value){
+      if(value === true){
+        this.tab = "reg"
+      }
+    }
   },
 };
 </script>

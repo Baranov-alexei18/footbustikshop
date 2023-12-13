@@ -2,7 +2,7 @@
   <div
     class="d-flex col-sm-7 mx-auto"
     style="flex-direction: column; justify-content: center"
-  > 
+  >
     <div class="mx-auto mb-6">
       <LogoApp></LogoApp>
     </div>
@@ -24,12 +24,14 @@
       <v-text-field
         v-model="password"
         :rules="nameRules"
+        :append-icon="password ? '$vuetify': ''"
+        :type="show1 ? 'text' : 'password'"
         label="Password"
         variant="outlined"
-        icon="$vuetify"
         rounded="xl"
         small
         required
+        @click:append="show1 = !show1"
       ></v-text-field>
 
       <div class="mb-10">
@@ -39,29 +41,32 @@
           rounded="xl"
           size="large"
           height="56px"
-          style="min-width: 200px;"
+          style="min-width: 200px"
         >
           Войти
         </v-btn>
       </div>
-
-      <a style="font-size: 14px" href=""> Создать свой аккаунт</a>
+      <div
+        style="font-size: 14px; color: blue"
+        @click="this.$emit('toRegistration', true)"
+      >
+        Создать свой аккаунт
+      </div>
     </v-form>
   </div>
 </template>
   
   <script>
-import LogoApp from '@/components/ui-component/LogoApp.vue';
+import LogoApp from "@/components/ui-component/LogoApp.vue";
 
 export default {
   name: "AuthorizationApp",
-  components: {LogoApp},
+  components: { LogoApp },
   data() {
     return {
-      tab: null,
+      show1: false,
       email: "",
       password: "",
-      switchAgree: true,
       nameRules: [
         (v) => !!v || "",
         (v) => (v && v.length <= 10) || "Name must be less than 10 characters",

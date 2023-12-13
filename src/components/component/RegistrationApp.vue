@@ -3,7 +3,7 @@
     class="d-flex mx-auto"
     style="flex-direction: column; justify-content: center"
   >
-    <div class="mx-auto px-auto mb-6">
+    <div class="mx-auto px-auto mb-5">
       <LogoApp></LogoApp>
     </div>
     <v-form ref="form">
@@ -27,7 +27,7 @@
         </div>
         <div class="col">
           <v-text-field
-            v-model="password"
+            v-model="passwordReg"
             label="Введите пароль"
             variant="outlined"
             icon="$vuetify"
@@ -37,9 +37,12 @@
           ></v-text-field>
 
           <v-text-field
-            v-model="password"
+            v-model="passwordAgain"
             label="Подтвердите пароль"
             variant="outlined"
+            :append-inner-icon="passwordAgain ? '$vuetify' : ''"
+            :type="show1 ? 'text' : 'password'"
+            @click:appendInner="show1 = !show1"
             icon="$vuetify"
             rounded="xl"
             small
@@ -47,27 +50,9 @@
           ></v-text-field>
         </div>
       </div>
-      <div class="d-flex justify-content-around mb-1">
+      <DatePickerApp></DatePickerApp>
+      <div style="height: 60px">
         <v-switch
-          class="ml-10"
-          v-model="switchMen"
-          hide-details
-          inset
-          color="primary"
-          label="Мужской пол"
-        ></v-switch>
-        <v-switch
-          class="ml-10"
-          v-model="switchWoman"
-          hide-details
-          inset
-          color="primary"
-          label="Женский пол"
-        ></v-switch>
-      </div>
-      <div style="height: 70px">
-        <v-switch
-          class="ml-10"
           v-model="switchAgree"
           :rules="nameRules"
           hide-details
@@ -78,8 +63,8 @@
           {{ messageError }}
         </v-switch>
         <div
-          class="d-flex error mb-3 ml-10"
-          style="z-index: 3"
+          class="d-flex error mb-1"
+          style="z-index: 1"
           v-if="messageError && !switchAgree"
         >
           <span class="mb-0" style="color: red; margin-top: -10px">
@@ -87,7 +72,7 @@
           </span>
         </div>
       </div>
-      <div class="d-flex justify-center gap-2 pt-3">
+      <div class="d-flex justify-center gap-2 pt-4 pb-2">
         <v-btn
           color="primary"
           @click="validate"
@@ -115,20 +100,22 @@
   
   <script>
 import LogoApp from "@/components/ui-component/LogoApp.vue";
+import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vue";
 
 export default {
   name: "RegistrationView",
-  components: { LogoApp },
+  components: { LogoApp, DatePickerApp },
 
   data() {
     return {
+      show1: false,
       dataPicker: null,
-      switchMen: true,
-      switchWoman: false,
-      switchAgree: false,
       messageError: null,
+      switchAgree: false,
+      user: {},
       emailReg: "",
-      password: "",
+      passwordReg: "",
+      passwordAgain: "",
       nameRules: [(v) => v === true || "Согласитесь с обработкой данных"],
     };
   },
@@ -136,36 +123,35 @@ export default {
   methods: {
     async validate() {
       const { valid } = await this.$refs.form.validate();
-      console.log(this.switchAgree);
       if (valid) {
-        alert("Form is valid");
+        let gender = this.isGender();
+        this.user = {
+          email: this.emailReg,
+          password: this.passwordReg,
+          date_birthday: this.dataPicker,
+          gender: gender,
+          agree: this.switchAgree,
+        };
+
+        let jsonUser = JSON.stringify(this.user, null, 2);
+        await this.$refs.form.reset();
+        alert(jsonUser);
+
         this.$emit("returnToAuth", true);
       } else
         this.messageError = await this.$refs.form.errors[0].errorMessages[0];
     },
-  },
 
-  watch: {
-    switchMen(value) {
-      if (value == true) {
-        this.switchWoman = false;
-      } else {
-        this.switchWoman = true;
-      }
-    },
-    switchWoman(value) {
-      if (value == true) {
-        this.switchMen = false;
-      } else {
-        this.switchMen = true;
-      }
+    isGender() {
+      let gender = this.switchMen == true ? "man" : "Women";
+      return gender;
     },
   },
 };
 </script>
   
   <style>
-.error{
+.error {
   animation-name: error;
   animation-duration: 0.3s;
   animation-fill-mode: both;

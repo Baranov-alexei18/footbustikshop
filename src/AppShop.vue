@@ -19,7 +19,12 @@ export default {
 
 <style lang="scss">
 .view {
-  background: conic-gradient(at 0% 50%,yellow 15%,rgb(111, 255, 0) 20%, #1e90ff 32%);
+  background: conic-gradient(
+    at 0% 50%,
+    yellow 15%,
+    rgb(111, 255, 0) 20%,
+    #1e90ff 32%
+  );
 }
 </style>
   
