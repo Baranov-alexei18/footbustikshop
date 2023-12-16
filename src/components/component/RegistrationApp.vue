@@ -1,78 +1,81 @@
 <template>
   <div
-    class="d-flex mx-auto"
+    class="d-flex col-sm-8 mx-auto"
     style="flex-direction: column; justify-content: center"
   >
-    <div class="mx-auto px-auto mb-5">
+    <div class="mx-auto mb-6">
       <LogoApp></LogoApp>
     </div>
     <v-form ref="form">
-      <div class="d-sm-flex gap-3">
-        <div class="col">
-          <v-text-field
-            v-model="emailReg"
-            label="Введите email"
-            variant="outlined"
-            rounded="xl"
-            required
-          >
-          </v-text-field>
-          <v-text-field
-            v-model="dataPicker"
-            label="Введите вашу дату рождения"
-            variant="outlined"
-            rounded="xl"
-          >
-          </v-text-field>
-        </div>
-        <div class="col">
-          <v-text-field
-            v-model="passwordReg"
-            label="Введите пароль"
-            variant="outlined"
-            icon="$vuetify"
-            rounded="xl"
-            small
-            required
-          ></v-text-field>
+      <div class="">
+        <v-text-field
+          v-model="form.fullName"
+          label="Имя"
+          placeholder="Введите ФИО"
+          variant="outlined"
+          rounded="xl"
+          required
+          :rules="rulesForms.rulesRequired"
+          validate-on="submit"
+        >
+        </v-text-field>
 
-          <v-text-field
-            v-model="passwordAgain"
-            label="Подтвердите пароль"
-            variant="outlined"
-            :append-inner-icon="passwordAgain ? '$vuetify' : ''"
-            :type="show1 ? 'text' : 'password'"
-            @click:appendInner="show1 = !show1"
-            icon="$vuetify"
-            rounded="xl"
-            small
-            required
-          ></v-text-field>
-        </div>
+        <DatePickerApp
+          @update:modelValue="setData"
+          :rules-date="rulesForms.rulesRequired"
+        ></DatePickerApp>
+        <v-text-field
+          v-model="form.emailReg"
+          label="Email"
+          placeholder="Введите email"
+          variant="outlined"
+          rounded="xl"
+          required
+          :rules="rulesForms.rulesMail"
+          validate-on="submit"
+        >
+        </v-text-field>
+
+        <v-text-field
+          v-model="form.passwordReg"
+          label="Пароль"
+          placeholder="Введите пароль"
+          variant="outlined"
+          rounded="xl"
+          small
+          required
+          :rules="rulesForms.rulesPassword"
+          validate-on="input submit"
+        ></v-text-field>
+
+        <v-text-field
+          v-model="form.passwordAgain"
+          label="Подтвердите пароль"
+          placeholder="Подтвердите пароль"
+          variant="outlined"
+          :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="show1 ? 'text' : 'password'"
+          @click:appendInner="show1 = !show1"
+          rounded="xl"
+          small
+          required
+          :rules="rulesForms.rulesPasswordAgain"
+          validate-on="input submit"
+        ></v-text-field>
       </div>
-      <DatePickerApp></DatePickerApp>
-      <div style="height: 60px">
-        <v-switch
-          v-model="switchAgree"
-          :rules="nameRules"
-          hide-details
+
+      <div class="checkAgree mb-5">
+        <v-checkbox
+          v-model="form.checkAgree"
+          :rules="rulesForms.rulesAgree"
           inset
           color="primary"
-          label="Согласие на обработку персональных данных"
+          label="Пользовательское соглашение"
+          validate-on="input"
         >
-          {{ messageError }}
-        </v-switch>
-        <div
-          class="d-flex error mb-1"
-          style="z-index: 1"
-          v-if="messageError && !switchAgree"
-        >
-          <span class="mb-0" style="color: red; margin-top: -10px">
-            {{ messageError }}
-          </span>
-        </div>
+        </v-checkbox>
       </div>
-      <div class="d-flex justify-center gap-2 pt-4 pb-2">
+      <div class="d-flex justify-center gap-2 pb-2">
         <v-btn
           color="primary"
           @click="validate"
@@ -108,15 +111,35 @@ export default {
 
   data() {
     return {
+      form: {
+        fullName: null,
+        dataPicker: null,
+        checkAgree: false,
+        emailReg: "",
+        passwordReg: "",
+        passwordAgain: "",
+      },
+
       show1: false,
-      dataPicker: null,
-      messageError: null,
-      switchAgree: false,
       user: {},
-      emailReg: "",
-      passwordReg: "",
-      passwordAgain: "",
-      nameRules: [(v) => v === true || "Согласитесь с обработкой данных"],
+
+      rulesForms: {
+        rulesAgree: [(v) => v === true || "Согласитесь с обработкой данных"],
+        rulesMail: [
+          (v) => !!v || "",
+          (v) =>
+            /^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(v) || "e-mail не корректен",
+        ],
+        rulesPassword: [
+          (v) => !!v || "",
+          (v) => v.length >= 8 || "Пароль имеет меньше 8 символов",
+        ],
+        rulesPasswordAgain: [
+          (v) => !!v || "",
+          (v) => v === this.form.passwordReg || "Пароль не подтвержден",
+        ],
+        rulesRequired: [(v) => !!v || ""],
+      },
     };
   },
 
@@ -124,33 +147,41 @@ export default {
     async validate() {
       const { valid } = await this.$refs.form.validate();
       if (valid) {
-        let gender = this.isGender();
         this.user = {
-          email: this.emailReg,
-          password: this.passwordReg,
-          date_birthday: this.dataPicker,
-          gender: gender,
-          agree: this.switchAgree,
+          fullName: this.form.fullName,
+          email: this.form.emailReg,
+          password: this.form.passwordReg,
+          date_birthday: this.form.dataPicker,
+          agree: this.form.switchAgree,
         };
 
         let jsonUser = JSON.stringify(this.user, null, 2);
+
         await this.$refs.form.reset();
         alert(jsonUser);
 
         this.$emit("returnToAuth", true);
-      } else
-        this.messageError = await this.$refs.form.errors[0].errorMessages[0];
+      } else {
+        console.log(await this.$refs.form.errors);
+      }
     },
-
-    isGender() {
-      let gender = this.switchMen == true ? "man" : "Women";
-      return gender;
+    setData(value) {
+      value.setHours(value.getHours() + 3);
+      this.form.dataPicker = value.toISOString();
     },
   },
 };
 </script>
   
-  <style>
+<style>
+.checkAgree .v-input__details {
+  display: inline-block;
+  align-items: flex-end;
+  text-align: start;
+  padding-left: 10px;
+  margin-top: -15px;
+}
+
 .error {
   animation-name: error;
   animation-duration: 0.3s;
