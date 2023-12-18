@@ -45,7 +45,7 @@
           small
           required
           :rules="rulesForms.rulesPassword"
-          validate-on="input submit"
+          validate-on="submit"
         ></v-text-field>
 
         <v-text-field
@@ -60,7 +60,7 @@
           small
           required
           :rules="rulesForms.rulesPasswordAgain"
-          validate-on="input submit"
+          validate-on="submit"
         ></v-text-field>
       </div>
 
@@ -104,6 +104,8 @@
   <script>
 import LogoApp from "@/components/ui-component/LogoApp.vue";
 import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vue";
+
+import {firebase} from "firebase/auth";
 
 export default {
   name: "RegistrationView",
@@ -156,6 +158,13 @@ export default {
         };
 
         let jsonUser = JSON.stringify(this.user, null, 2);
+
+        if (firebase) {
+          const user = await firebase.auth()
+          console.log(user);
+        }else{
+          console.log("Error");
+        }
 
         await this.$refs.form.reset();
         alert(jsonUser);

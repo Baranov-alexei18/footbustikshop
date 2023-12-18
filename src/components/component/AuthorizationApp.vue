@@ -11,7 +11,6 @@
       <v-text-field
         style="max-height: 65px"
         v-model="email"
-        :rules="nameRules"
         label="Email"
         variant="outlined"
         rounded="xl"
@@ -23,15 +22,14 @@
       </div>
       <v-text-field
         v-model="password"
-        :rules="nameRules"
-        :append-icon="password ? '$vuetify': ''"
-        :type="show1 ? 'text' : 'password'"
+        :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="showPassword ? 'text' : 'password'"
         label="Password"
         variant="outlined"
         rounded="xl"
         small
         required
-        @click:append="show1 = !show1"
+        @click:append-inner="showPassword = !showPassword"
       ></v-text-field>
 
       <div class="mb-10">
@@ -64,13 +62,9 @@ export default {
   components: { LogoApp },
   data() {
     return {
-      show1: false,
+      showPassword: false,
       email: "",
       password: "",
-      nameRules: [
-        (v) => !!v || "",
-        (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
-      ],
     };
   },
 
