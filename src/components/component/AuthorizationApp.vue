@@ -6,7 +6,7 @@
     <div class="mx-auto mb-6">
       <LogoApp></LogoApp>
     </div>
-
+    {{ getUserId }}
     <v-form ref="form">
       <v-text-field
         style="max-height: 65px"
@@ -33,20 +33,18 @@
       ></v-text-field>
 
       <div class="mb-10">
-
-          <v-btn
-            color="primary"
-            rounded="xl"
-            size="large"
-            height="56px"
-            style="min-width: 200px"
-            @click="authUserInApp"
-          >
-            Войти
-          </v-btn>
+        <v-btn
+          color="primary"
+          rounded="xl"
+          size="large"
+          height="56px"
+          style="min-width: 200px"
+          @click="authUserInApp"
+        >
+          Войти
+        </v-btn>
       </div>
       <a
-        link
         style="font-size: 14px; color: blue"
         @click="this.$emit('toRegistration', true)"
       >
@@ -59,6 +57,8 @@
   <script>
 import LogoApp from "@/components/ui-component/LogoApp.vue";
 
+import { mapGetters } from "vuex";
+
 export default {
   name: "AuthorizationApp",
   components: { LogoApp },
@@ -70,6 +70,8 @@ export default {
     };
   },
 
+  computed: mapGetters(["getUserId"]),
+
   methods: {
     async authUserInApp() {
 
@@ -77,8 +79,9 @@ export default {
         await this.$store.dispatch("authUser", {
           email: this.email,
           password: this.password,
-        });
+        });    
 
+       
         this.$router.push("/")
       } catch (error) {
         alert(error);

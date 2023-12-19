@@ -60,7 +60,7 @@
         </form>
       </div>
       <div class="d-flex">
-        <v-btn class="my-auto" to="/signIn">Войти</v-btn>
+        <v-btn v-if="!getUserId" class="my-auto" to="/signIn">Войти</v-btn>
         <AvatarApp></AvatarApp>
       </div>
     </div>
@@ -70,6 +70,9 @@
 <script>
 import LogoApp from "./ui-component/LogoApp.vue";
 import AvatarApp from "./ui-component/AvatarApp.vue";
+
+import { mapGetters } from "vuex";
+
 
 export default {
   components: { LogoApp, AvatarApp },
@@ -85,8 +88,10 @@ export default {
         "Гродненская область",
       ],
     };
+    
   },
-};
+  computed: mapGetters(["getUserId"])
+}
 </script>
 
 <style>

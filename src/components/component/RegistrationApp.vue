@@ -105,9 +105,6 @@
 import LogoApp from "@/components/ui-component/LogoApp.vue";
 import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vue";
 
-import { auth } from "@/firebase/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
 export default {
   name: "RegistrationView",
   components: { LogoApp, DatePickerApp },
@@ -159,25 +156,17 @@ export default {
         };
 
         this.regNewUser(user.email, user.password);
-
-        
       }
     },
 
-    async regNewUser(email, password){
-      await createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            console.log(userCredential);
-                        
-            this.$refs.form.reset();
-
-            this.$emit("returnToAuth", true);
-          })
-          .catch((error) => {
-            console.log(error.code);
-            alert(error.message);
-            // ..
-          });
+    async regNewUser(email, password) {
+      try {
+        await this.$store.dispatch("regUser", { email, password });
+        this.$refs.form.reset();
+        this.$emit("returnToAuth", true);
+      } catch (error) {
+        alert(error);
+      }
     },
 
     setData(value) {

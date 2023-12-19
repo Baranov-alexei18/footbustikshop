@@ -6,26 +6,43 @@ import {
 } from "firebase/auth";
 
 export default {
-  state: {},
-  getters: {},
-  mutations: {},
+  state: {
+    userId: null,
+  },
+  getters: {
+    getUserId(state){
+        return state.userId
+    }
+  },
+  mutations: {
+    userId(state, userId){
+        state.userId = userId
+    }
+  },
   actions: {
-    authUser({ dispatch, content }, { email, password }) {
-      // eslint-disable-next-line no-useless-catch
-      try {
-        signInWithEmailAndPassword(auth, email, password)
+    async authUser(ctx, { email, password }) {
+      //eslint-disable-next-line no-useless-catch
+        await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log(user.uid);
+            ctx.commit('userId', user.uid)
           }
         )
         .catch(e => {
             alert(e)
         });
-      } catch (error) {
-        console.log(error);
-      }
+      
     },
+
+    regUser({ dispatch, content }, { email, password }){
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {})
+        .catch((error) => {
+          console.log(error.code);
+          alert(error.message);
+          // ..
+        });
+    }
   },
   modules: {},
 };

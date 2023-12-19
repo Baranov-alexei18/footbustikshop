@@ -66,9 +66,9 @@
     </section>
 
     <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05); font-size: 12px;">
-      © 2023 Created using the CSS-framework:
-      <a class="text-reset" href="https://mdbootstrap.com/"
-        >Bootstrap</a
+      © {{new Date().getFullYear()}} Created using the framework:
+      <a class="text-reset" href="https://vuejs.org/"
+        >Vue js</a
       >
     </div>
   </footer>
