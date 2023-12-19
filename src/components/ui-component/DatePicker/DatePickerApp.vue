@@ -35,7 +35,7 @@ export default {
     menu2: false,
     show: false,
   }),
-  props: { rulesDate: String },
+  props: { rulesDate: Array },
 
   computed: {},
 

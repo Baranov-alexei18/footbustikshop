@@ -105,7 +105,8 @@
 import LogoApp from "@/components/ui-component/LogoApp.vue";
 import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vue";
 
-import {firebase} from "firebase/auth";
+import { auth } from "@/firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default {
   name: "RegistrationView",
@@ -123,7 +124,6 @@ export default {
       },
 
       show1: false,
-      user: {},
 
       rulesForms: {
         rulesAgree: [(v) => v === true || "Согласитесь с обработкой данных"],
@@ -148,8 +148,9 @@ export default {
   methods: {
     async validate() {
       const { valid } = await this.$refs.form.validate();
+
       if (valid) {
-        this.user = {
+        const user = {
           fullName: this.form.fullName,
           email: this.form.emailReg,
           password: this.form.passwordReg,
@@ -157,23 +158,28 @@ export default {
           agree: this.form.switchAgree,
         };
 
-        let jsonUser = JSON.stringify(this.user, null, 2);
+        this.regNewUser(user.email, user.password);
 
-        if (firebase) {
-          const user = await firebase.auth()
-          console.log(user);
-        }else{
-          console.log("Error");
-        }
-
-        await this.$refs.form.reset();
-        alert(jsonUser);
-
-        this.$emit("returnToAuth", true);
-      } else {
-        console.log(await this.$refs.form.errors);
+        
       }
     },
+
+    async regNewUser(email, password){
+      await createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            console.log(userCredential);
+                        
+            this.$refs.form.reset();
+
+            this.$emit("returnToAuth", true);
+          })
+          .catch((error) => {
+            console.log(error.code);
+            alert(error.message);
+            // ..
+          });
+    },
+
     setData(value) {
       value.setHours(value.getHours() + 3);
       this.form.dataPicker = value.toISOString();
