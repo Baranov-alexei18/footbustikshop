@@ -33,23 +33,25 @@
       ></v-text-field>
 
       <div class="mb-10">
-        <v-btn
-          color="primary"
-          @click="validate"
-          rounded="xl"
-          size="large"
-          height="56px"
-          style="min-width: 200px"
-        >
-          Войти
-        </v-btn>
+
+          <v-btn
+            color="primary"
+            rounded="xl"
+            size="large"
+            height="56px"
+            style="min-width: 200px"
+            @click="authUserInApp"
+          >
+            Войти
+          </v-btn>
       </div>
-      <div
+      <a
+        link
         style="font-size: 14px; color: blue"
         @click="this.$emit('toRegistration', true)"
       >
         Создать свой аккаунт
-      </div>
+      </a>
     </v-form>
   </div>
 </template>
@@ -69,10 +71,18 @@ export default {
   },
 
   methods: {
-    async validate() {
-      const { valid } = await this.$refs.form.validate();
+    async authUserInApp() {
 
-      if (valid) alert("Form is valid");
+      try {
+        await this.$store.dispatch("authUser", {
+          email: this.email,
+          password: this.password,
+        });
+
+        this.$router.push("/")
+      } catch (error) {
+        alert(error);
+      }
     },
   },
 };
