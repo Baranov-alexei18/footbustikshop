@@ -23,7 +23,7 @@
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/manager">Менеджерам</a>
+            <router-link class="nav-link" to="/manager">Менеджерам</router-link>
           </li>
           <li class="nav-item dropdown">
             <a
@@ -59,6 +59,7 @@
           <v-btn class="my-auto">Поиск</v-btn>
         </form>
       </div>
+      {{ getUserId }}
       <div class="d-flex">
         <v-btn v-if="!getUserId" class="my-auto" to="/signIn">Войти</v-btn>
         <AvatarApp></AvatarApp>

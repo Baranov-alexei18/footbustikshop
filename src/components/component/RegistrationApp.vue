@@ -6,7 +6,7 @@
     <div class="mx-auto mb-6">
       <LogoApp></LogoApp>
     </div>
-    <v-form ref="form">
+    <v-form ref="form" v-on:keyup.enter="validate">
       <div class="">
         <v-text-field
           v-model="form.fullName"
@@ -14,9 +14,9 @@
           placeholder="Введите ФИО"
           variant="outlined"
           rounded="xl"
-          required
           :rules="rulesForms.rulesRequired"
           validate-on="submit"
+          required
         >
         </v-text-field>
 
@@ -45,7 +45,7 @@
           small
           required
           :rules="rulesForms.rulesPassword"
-          validate-on="submit"
+          validate-on="input"
         ></v-text-field>
 
         <v-text-field
@@ -108,16 +108,15 @@ import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vu
 export default {
   name: "RegistrationView",
   components: { LogoApp, DatePickerApp },
-
   data() {
     return {
       form: {
-        fullName: null,
+        fullName: "Alexei",
         dataPicker: null,
-        checkAgree: false,
-        emailReg: "",
-        passwordReg: "",
-        passwordAgain: "",
+        checkAgree: true,
+        emailReg: "asdf@mail.com",
+        passwordReg: "asdfasdf",
+        passwordAgain: "asdfasdf",
       },
 
       show1: false,
@@ -127,7 +126,7 @@ export default {
         rulesMail: [
           (v) => !!v || "",
           (v) =>
-            /^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(v) || "e-mail не корректен",
+            /^[a-z.-A-Z]+@[a-z.-]+\.[a-z]+$/i.test(v) || "e-mail не корректен",
         ],
         rulesPassword: [
           (v) => !!v || "",
@@ -152,24 +151,24 @@ export default {
           email: this.form.emailReg,
           password: this.form.passwordReg,
           date_birthday: this.form.dataPicker,
-          agree: this.form.switchAgree,
+          agree: this.form.checkAgree,
         };
 
-        this.regNewUser(user.email, user.password);
+        this.regNewUser(user);
       }
     },
 
-    async regNewUser(email, password) {
+    async regNewUser(user) {
       try {
-        await this.$store.dispatch("regUser", { email, password });
+        await this.$store.dispatch("regUser", { user });
         this.$refs.form.reset();
+
         this.$emit("returnToAuth", true);
       } catch (error) {
         alert(error);
       }
     },
-
-    setData(value) {
+    async setData(value) {
       value.setHours(value.getHours() + 3);
       this.form.dataPicker = value.toISOString();
     },
