@@ -59,9 +59,16 @@
           <v-btn class="my-auto">Поиск</v-btn>
         </form>
       </div>
-      {{ userName }}
+      <div class="user-name mr-3">
+        {{ userName }}
+      </div>
       <div class="d-flex">
-        <v-btn v-if="!getUserData.length && !userName" class="my-auto" to="/signIn">Войти</v-btn>
+        <v-btn
+          v-if="!getUserData.length && !userName"
+          class="my-auto"
+          to="/signIn"
+          >Войти</v-btn
+        >
         <AvatarApp></AvatarApp>
       </div>
     </div>
@@ -73,7 +80,6 @@ import LogoApp from "./ui-component/LogoApp.vue";
 import AvatarApp from "./ui-component/AvatarApp.vue";
 
 import { mapGetters } from "vuex";
-
 
 export default {
   components: { LogoApp, AvatarApp },
@@ -89,18 +95,17 @@ export default {
         "Гродненская область",
       ],
     };
-    
   },
-  computed:{
+  computed: {
     ...mapGetters(["getUserData"]),
-    userName(){
-      return this.getUserData.full_name
-    }
-  }
-}
+    userName() {
+      return this.getUserData.full_name;
+    },
+  },
+};
 </script>
 
-<style>
+<style lang="scss">
 .header {
   background: black;
 }
@@ -114,6 +119,10 @@ export default {
 
 .logo p:hover {
   text-shadow: -1px -1px 1px silver, 1px -1px 1px silver;
+  color: white;
+}
+
+.user-name {
   color: white;
 }
 </style>
