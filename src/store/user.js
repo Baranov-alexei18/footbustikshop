@@ -2,7 +2,7 @@
 import { auth } from "@/firebase/firebase";
 import { db } from "@/firebase/firebase";
 
-import { collection, addDoc, runTransaction, doc } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, getDoc } from "firebase/firestore";
 
 import {
   createUserWithEmailAndPassword,
@@ -11,17 +11,17 @@ import {
 
 export default {
   state: {
-    userId: null,
+    user: {},
   },
   getters: {
-    getUserId(state) {
-      return state.userId;
+    getUserData(state) {
+      return state.user;
     },
   },
   mutations: {
-    userId(state, userId) {
-      state.userId = userId;
-    },
+    userData(state, user){
+      state.user = user;
+    }
   },
   actions: {
     async authUser(context, { email, password }) {
@@ -29,8 +29,6 @@ export default {
         .then((userCredential) => {
           console.log(userCredential.user);
           const user = userCredential.user;
-
-          context.commit("userId", user.uid);
 
           this.dispatch("getUserData", user.uid);
         })
@@ -42,7 +40,6 @@ export default {
     async regUser(context, { user }) {
       createUserWithEmailAndPassword(auth, user.email, user.password)
         .then((userCredential) => {
-          console.log("FROM USERS  " + userCredential.user.uid);
           const docRef = addDoc(collection(db, "Users"), {
             userId: userCredential.user.uid,
             full_name: user.fullName,
@@ -55,23 +52,13 @@ export default {
         });
     },
 
-    async getUserData(context,  sfDocRef ) {
-      const resultCars = []
-      try {
-        await runTransaction(db, async (transaction) => {
-          await transaction.get(doc(db, "Users","ePywXVvHSkoverTf6oOs"))
-          .then((querySnapshot) => {
-            console.log(querySnapshot);
-          });
-          if (!resultCars) {
-            throw "Document does not exist!";
-          }
-          console.log(resultCars);
-        });
-        console.log("Transaction successfully committed!");
-      } catch (e) {
-        console.log("Transaction failed: ", e);
-      }
+    async getUserData(context, sfDocRef) {
+      const querySnapshot = await getDocs(collection(db, "Users"));
+      querySnapshot.forEach((doc) => {
+        if (doc.data().userId == sfDocRef) {
+          context.commit("userData", doc.data());
+        }
+      });
     },
   },
   modules: {},

@@ -59,9 +59,9 @@
           <v-btn class="my-auto">Поиск</v-btn>
         </form>
       </div>
-      {{ getUserId }}
+      {{ userName }}
       <div class="d-flex">
-        <v-btn v-if="!getUserId" class="my-auto" to="/signIn">Войти</v-btn>
+        <v-btn v-if="!getUserData.length && !userName" class="my-auto" to="/signIn">Войти</v-btn>
         <AvatarApp></AvatarApp>
       </div>
     </div>
@@ -91,7 +91,12 @@ export default {
     };
     
   },
-  computed: mapGetters(["getUserId"])
+  computed:{
+    ...mapGetters(["getUserData"]),
+    userName(){
+      return this.getUserData.full_name
+    }
+  }
 }
 </script>
 

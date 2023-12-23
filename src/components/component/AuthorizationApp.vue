@@ -6,7 +6,6 @@
     <div class="mx-auto mb-6">
       <LogoApp></LogoApp>
     </div>
-    {{ getUserId }}
     <v-form ref="form">
       <v-text-field
         style="max-height: 65px"
@@ -57,8 +56,6 @@
   <script>
 import LogoApp from "@/components/ui-component/LogoApp.vue";
 
-import { mapGetters } from "vuex";
-
 export default {
   name: "AuthorizationApp",
   components: { LogoApp },
@@ -69,8 +66,6 @@ export default {
       password: "",
     };
   },
-
-  computed: mapGetters(["getUserId"]),
 
   methods: {
     async authUserInApp() {
