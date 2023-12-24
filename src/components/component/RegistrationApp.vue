@@ -25,12 +25,14 @@
           :rules-date="rulesForms.rulesRequired"
         ></DatePickerApp>
         <v-text-field
+          id="userEmail"
           v-model="form.emailReg"
           label="Email"
           placeholder="Введите email"
           variant="outlined"
           rounded="xl"
           required
+          :error-messages="errorEmail"
           :rules="rulesForms.rulesMail"
           validate-on="submit"
         >
@@ -71,12 +73,13 @@
           inset
           color="primary"
           label="Пользовательское соглашение"
-          validate-on="input"
+          validate-on="submit"
         >
         </v-checkbox>
       </div>
       <div class="d-flex justify-center gap-2 pb-2">
         <v-btn
+          :loading="loading"
           color="primary"
           @click="validate"
           rounded="xl"
@@ -105,28 +108,40 @@
 import LogoApp from "@/components/ui-component/LogoApp.vue";
 import DatePickerApp from "@/components/ui-component/DatePicker/DatePickerApp.vue";
 
+import { auth, db } from "@/firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
+
+import { useToast } from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-sugar.css";
+
 export default {
   name: "RegistrationView",
   components: { LogoApp, DatePickerApp },
+
   data() {
     return {
       form: {
-        fullName: "Alexei",
+        fullName: null,
         dataPicker: null,
         checkAgree: true,
-        emailReg: "asdf@mail.com",
-        passwordReg: "asdfasdf",
-        passwordAgain: "asdfasdf",
+        emailReg: null,
+        passwordReg: null,
+        passwordAgain: null,
       },
 
       show1: false,
+      loading: false,
+      errorEmail: null,
 
       rulesForms: {
         rulesAgree: [(v) => v === true || "Согласитесь с обработкой данных"],
         rulesMail: [
           (v) => !!v || "",
           (v) =>
-            /^[a-z.-A-Z]+@[a-z.-]+\.[a-z]+$/i.test(v) || "e-mail не корректен",
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(
+              v
+            ) || "e-mail не корректен",
         ],
         rulesPassword: [
           (v) => !!v || "",
@@ -154,21 +169,52 @@ export default {
           agree: this.form.checkAgree,
         };
 
-        this.regNewUser(user);
+        this.loading = true;
+        await this.regNewUser(user);
+        this.loading = false;
       }
     },
 
     async regNewUser(user) {
-      try {
-        await this.$store.dispatch("regUser", { user });
-        this.$refs.form.reset();
+      await createUserWithEmailAndPassword(auth, user.email, user.password)
+        .then((userCredential) => {
+          addDoc(collection(db, "Users"), {
+            user_id: userCredential.user.uid,
+            email: userCredential.user.email,
+            full_name: user.fullName,
+            date_birthday: user.date_birthday,
+            agree: user.agree,
+          });
 
-        this.$emit("returnToAuth", true);
-      } catch (error) {
-        alert(error);
-      }
+          const $toast = useToast();
+          $toast.open({
+            message: "Новый пользователь создан",
+            position: "top-right",
+            type: "success",
+            duration: 3000,
+          });
+
+          this.errorEmail = null;
+          this.$emit("returnToAuth", true);
+          this.$refs.form.reset();
+        })
+        .catch((error) => {
+          const $toast = useToast();
+
+          if (error.code == "auth/email-already-in-use") {
+            $toast.open({
+              message: "Пользователь с данным емайл уже зарегестрирован",
+              position: "top-right",
+              type: "error",
+              duration: 2000,
+            });
+
+            this.errorEmail = "Данный емайл уже существует";
+          }
+        });
     },
-    async setData(value) {
+
+    setData(value) {
       value.setHours(value.getHours() + 3);
       this.form.dataPicker = value.toISOString();
     },
@@ -183,27 +229,6 @@ export default {
   text-align: start;
   padding-left: 10px;
   margin-top: -15px;
-}
-
-.error {
-  animation-name: error;
-  animation-duration: 0.3s;
-  animation-fill-mode: both;
-}
-
-@keyframes error {
-  20% {
-    transform: translate(-8px, 0);
-  }
-  40% {
-    transform: translate(8px, 0);
-  }
-  80% {
-    transform: translate(-4px, 0);
-  }
-  100% {
-    transform: translate(4px, 0);
-  }
 }
 </style>
   

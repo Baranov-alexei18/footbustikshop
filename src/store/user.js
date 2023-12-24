@@ -27,7 +27,7 @@ export default {
     },
   },
   actions: {
-    async authUser(context, { email, password, path }) {
+    async authUser(context, { email, password }) {
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
@@ -52,42 +52,11 @@ export default {
         });
     },
 
-    async regUser(context, { user }) {
-      createUserWithEmailAndPassword(auth, user.email, user.password)
-        .then((userCredential) => {
-          const docRef = addDoc(collection(db, "Users"), {
-            userId: userCredential.user.uid,
-            full_name: user.fullName,
-            date_birthday: user.date_birthday,
-            agree: user.agree,
-          });
-
-          const $toast = useToast();
-          $toast.open({
-            message: "Новый пользователь создан",
-            position: "top-right",
-            type: "success",
-            duration: 2000,
-          });
-        })
-        .catch((error) => {
-          if (error.code == "auth/email-already-in-use") {
-            const $toast = useToast();
-            $toast.open({
-              message: "Пользователь с данным емайл уже создан",
-              position: "top-right",
-              type: "error",
-              duration: 2000,
-            });
-          }
-        });
-    },
-
     async getUserData(context, sfDocRef) {
       try {
         const querySnapshot = await getDocs(collection(db, "Users"));
         querySnapshot.forEach((doc) => {
-          if (doc.data().userId == sfDocRef) {
+          if (doc.data().user_id == sfDocRef) {
             context.commit("userData", doc.data());
           }
         });

@@ -38,17 +38,18 @@
           size="large"
           height="56px"
           style="min-width: 200px"
+          :loading="loading"
           @click="authUserInApp"
         >
           Войти
         </v-btn>
       </div>
-      <a
+      <span
         style="font-size: 14px; color: blue"
         @click="this.$emit('toRegistration', true)"
       >
         Создать свой аккаунт
-      </a>
+      </span>
     </v-form>
   </div>
 </template>
@@ -69,15 +70,18 @@ export default {
       showPassword: false,
       email: "",
       password: "",
+      loading: false,
     };
   },
 
   methods: {
     async authUserInApp() {
-        await this.$store.dispatch("authUser", {
-          email: this.email,
-          password: this.password,
-        });
+      this.loading = true
+      await this.$store.dispatch("authUser", {
+        email: this.email,
+        password: this.password,
+      });
+      this.loading = false
     },
   },
 };
