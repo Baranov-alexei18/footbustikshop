@@ -9,13 +9,13 @@
             </v-avatar>
           </v-btn>
         </template>
-        <v-card min-width="250px" min-height="330px">
+        <v-card>
           <v-layout class="wrapper_info_account">
             <v-list>
               <v-list-item
                 prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
-                title="John Leider"
-                subtitle="john@google.com"
+                :title="userName"
+                :subtitle="userEmail"
               >
               </v-list-item>
             </v-list>
@@ -27,7 +27,7 @@
                 v-for="(item, i) in items"
                 :key="i"
                 :value="item"
-                color="primary"
+                :color="item.color"
               >
                 <template v-slot:prepend>
                   <v-icon :icon="item.icon"></v-icon>
@@ -44,21 +44,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data: () => ({
     user: {
-      initials: "JD",
       fullName: "John Doe",
       email: "john.doe@doe.com",
     },
     items: [
-      { text: "My Files", icon: "mdi-folder" },
-      { text: "Shared with me", icon: "mdi-account-multiple" },
-      { text: "Starred", icon: "mdi-star" },
-      { text: "Recent", icon: "mdi-history" },
-      { text: "Offline", icon: "mdi-check-circle" },
+      { text: "Профиль", icon: "mdi-account-edit" },
+      { text: "Друзья", icon: "mdi-account-multiple" },
+      { text: "Выйти", icon: "mdi-logout", color: "red"},
     ],
   }),
+  computed: {
+    ...mapGetters(["getUserData"]),
+    userEmail() {
+      return this.getUserData.email;
+    },
+    userName() {
+      return this.getUserData.full_name;
+    },
+  },
 };
 </script>
 

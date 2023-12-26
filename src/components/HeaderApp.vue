@@ -69,7 +69,7 @@
           to="/signIn"
           >Войти</v-btn
         >
-        <AvatarApp></AvatarApp>
+        <AvatarApp :user-data="getUserData"></AvatarApp>
       </div>
     </div>
   </nav>
