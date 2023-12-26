@@ -3,18 +3,21 @@
     <v-text-field
       label="Дата рождения"
       placeholder="Введите вашу дату рождения"
-      v-model="dateField"
+      v-mask="'##.##.####'"
+      v-model="dateFormatted"
+      @blur="date = parseDate(dateFormatted)"
       variant="outlined"
       rounded="xl"
       append-inner-icon="mdi-calendar"
-      @click:control="show = !show"
+      @click:appendInner="show = !show"
       :rules="rulesDate"
       validate-on="submit"
     ></v-text-field>
+
     <div class="picker">
       <v-date-picker
         v-show="show"
-        v-model="selectedDate"
+        v-model="date"
         color="success"
         elevation="4"
         show-adjacent-months
@@ -27,32 +30,33 @@
 
 <script>
 export default {
-  data: () => ({
-    selectedDate: null,
-    dateField: null,
-    date: new Date().toISOString(),
-    menu1: false,
-    menu2: false,
-    show: false,
-  }),
+  data() {
+    return {
+      date: null,
+      dateFormatted: null,
+      menu1: false,
+      menu2: false,
+      show: false,
+    };
+  },
   props: { rulesDate: Array },
 
   computed: {},
 
   watch: {
-    selectedDate(value) {
-      this.show = false;
-      this.dateField = this.computedDateFormatted();
-      this.$emit("update:modelValue", value);
+    // eslint-disable-next-line no-unused-vars
+    date(val) {
+      this.dateFormatted = this.formatDate(val);
+      this.$emit("update:modelValue", this.dateFormatted);
     },
   },
 
   methods: {
-    computedDateFormatted() {
-      if (!this.selectedDate) return null;
-      let year = this.selectedDate.getFullYear();
-      let month = this.selectedDate.getMonth() + 1;
-      let day = this.selectedDate.getDate();
+    formatDate(date) {
+      if (!date) return null;
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      let day = date.getDate();
       if (day < 9) {
         day = `0${day}`;
       }
@@ -61,11 +65,17 @@ export default {
       }
       return `${day}.${month}.${year}`;
     },
+    parseDate(date2) {
+      if (!date2) return null;
+      const [day, month, year] = date2.split(".");
+      let date = new Date(year, month - 1, day);
+      return date;
+    },
   },
 
   mounted() {
-    window.addEventListener("click", (e) => {
-      if (!this.$el.contains(e.target) && this.show === true) {
+    window.addEventListener("click", (event) => {
+      if (!this.$el.contains(event.target) && this.show === true) {
         this.show = false;
       }
     });

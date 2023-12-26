@@ -214,9 +214,13 @@ export default {
         });
     },
 
-    setData(value) {
-      value.setHours(value.getHours() + 3);
-      this.form.dataPicker = value.toISOString();
+    setData(date) {
+      if (!date) return null;
+
+      const [day, month, year] = date.split(".");
+      const dat = new Date(year, month - 1, day);
+      dat.setHours(dat.getHours() + 3);
+      this.form.dataPicker = dat.toISOString();
     },
   },
 };
