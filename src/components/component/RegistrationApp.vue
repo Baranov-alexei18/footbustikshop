@@ -22,7 +22,7 @@
 
         <DatePickerApp
           @update:modelValue="setData"
-          :rules-date="rulesForms.rulesRequired"
+          :rules-date="rulesForms.rulesDate"
         ></DatePickerApp>
         <v-text-field
           id="userEmail"
@@ -124,7 +124,7 @@ export default {
       form: {
         fullName: null,
         dataPicker: null,
-        checkAgree: true,
+        checkAgree: false,
         emailReg: null,
         passwordReg: null,
         passwordAgain: null,
@@ -152,6 +152,12 @@ export default {
           (v) => v === this.form.passwordReg || "Пароль не подтвержден",
         ],
         rulesRequired: [(v) => !!v || ""],
+
+        //Функция, проверяющая возвраст, вместо false
+        rulesDate: [
+          (v) => !!v || "",
+          (v) => this.invalidDate(v) || "Дата не корректна",
+        ],
       },
     };
   },
@@ -221,6 +227,20 @@ export default {
       const dat = new Date(year, month - 1, day);
       dat.setHours(dat.getHours() + 3);
       this.form.dataPicker = dat.toISOString();
+    },
+
+    invalidDate(date) {
+      const [day, month, year] = date.split(".");
+      let isDate = new Date(year, month - 1, day);
+
+      let minDateBirthday = new Date();
+      minDateBirthday.setFullYear(minDateBirthday.getFullYear() - 100);
+
+      const validDate =
+        new Date().getFullYear() >= isDate.getFullYear() &&
+        isDate.getFullYear() >= minDateBirthday.getFullYear()? true : false;
+
+      return validDate;
     },
   },
 };
