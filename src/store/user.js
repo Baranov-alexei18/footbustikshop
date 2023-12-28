@@ -2,43 +2,47 @@
 import { auth, db } from "@/firebase/firebase";
 import { collection, addDoc, getDocs, doc, getDoc } from "firebase/firestore";
 
-
-import {
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 import router from "@/router";
 
+import {
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+
 export default {
   state: {
-    user: {},
+    user: localStorage.user_data,
   },
   getters: {
     getUserData(state) {
-      return state.user;
+      let localUser = state.user
+        ? JSON.parse(state.user)
+        : {};
+      return localUser;
     },
   },
   mutations: {
     userData(state, user) {
-      state.user = user;
+      const userData = JSON.stringify(user);
+      localStorage.setItem("user_data", userData);
+      state.user = userData;
     },
-    userOut(state){
-      state.user = {};
-    }
+    userOut(state) {
+      localStorage.removeItem("user_data");
+      state.user = null;
+      state.userLocal = null;
+    },
   },
   actions: {
     async authUser(context, { email, password }) {
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
-          this.dispatch("getUserData", user.uid);
-
-          router.push({ path: "/" });
+          
+          this.dispatch("getUserData", user.uid);          
         })
         .catch((error) => {
           if (
@@ -62,6 +66,11 @@ export default {
         querySnapshot.forEach((doc) => {
           if (doc.data().user_id == sfDocRef) {
             context.commit("userData", doc.data());
+            
+            const userData = JSON.stringify(doc.data());
+            localStorage.setItem("user_data", userData);
+
+          router.push({ path: "/" });
           }
         });
       } catch (e) {

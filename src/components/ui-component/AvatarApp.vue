@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-menu rounded>
         <template v-slot:activator="{ props }">
-          <v-btn icon v-bind="props">
+          <v-btn icon v-bind="props" >
             <v-avatar>
               <i class="fa-solid fa-user-tie"></i>
             </v-avatar>
@@ -24,10 +24,12 @@
 
             <v-list :lines="false" density="compact" nav>
               <v-list-item
-                v-for="(item, i) in items"
-                :key="i"
+                v-for="(item, id) in items"
+                :key="id"
                 :value="item"
                 :color="item.color"
+                :to="item.to"
+                @click="signOut(id)"
               >
                 <template v-slot:prepend>
                   <v-icon :icon="item.icon"></v-icon>
@@ -44,7 +46,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data: () => ({
@@ -53,18 +55,35 @@ export default {
       email: "john.doe@doe.com",
     },
     items: [
-      { text: "Профиль", icon: "mdi-account-edit" },
-      { text: "Друзья", icon: "mdi-account-multiple" },
-      { text: "Выйти", icon: "mdi-logout", color: "red"},
+      {
+        text: "Профиль",
+        icon: "mdi-account-edit",
+        to: "/profile",
+      },
+      { text: "Друзья", icon: "mdi-account-multiple", to: "/friends" },
+      {
+        text: "Выйти",
+        icon: "mdi-logout",
+        color: "red",
+      },
     ],
   }),
   computed: {
     ...mapGetters(["getUserData"]),
+    ...mapActions(["signOutUser"]),
+
     userEmail() {
       return this.getUserData.email;
     },
     userName() {
       return this.getUserData.full_name;
+    },
+  },
+  methods: {
+    signOut(id) {
+      if (this.getUserData && id == this.items.length - 1) {
+        this.signOutUser;
+      }
     },
   },
 };

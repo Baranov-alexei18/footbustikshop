@@ -1,7 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container">
-      <LogoApp />
+      <div class="d-none d-md-flex">
+        <LogoApp />
+
+      </div>
 
       <button
         class="navbar-toggler"
@@ -99,7 +102,10 @@ export default {
   computed: {
     ...mapGetters(["getUserData"]),
     userName() {
-      return this.getUserData.full_name;
+      if (!this.getUserData) {
+        return null;
+      }
+      return this.getUserData?.full_name;
     },
   },
 };

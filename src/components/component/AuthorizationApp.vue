@@ -56,14 +56,13 @@
   
   <script>
 import LogoApp from "@/components/ui-component/LogoApp.vue";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 mapGetters(["getUserData"]);
 
 export default {
   name: "AuthorizationApp",
   components: { LogoApp },
-
 
   data() {
     return {
@@ -76,12 +75,15 @@ export default {
 
   methods: {
     async authUserInApp() {
-      this.loading = true
+      this.loading = true;
       await this.$store.dispatch("authUser", {
         email: this.email,
         password: this.password,
       });
-      this.loading = false
+
+      localStorage.clear();
+
+      this.loading = false;
     },
   },
 };
