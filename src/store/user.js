@@ -2,15 +2,16 @@
 import { auth, db } from "@/firebase/firebase";
 import { collection, addDoc, getDocs, doc, getDoc } from "firebase/firestore";
 
+
+import {
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+
 import { useToast } from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-sugar.css";
 
 import router from "@/router";
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 
 export default {
   state: {
@@ -25,13 +26,16 @@ export default {
     userData(state, user) {
       state.user = user;
     },
+    userOut(state){
+      state.user = {};
+    }
   },
   actions: {
     async authUser(context, { email, password }) {
       await signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
-
+          console.log(user);
           this.dispatch("getUserData", user.uid);
 
           router.push({ path: "/" });
@@ -63,6 +67,16 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+
+    async signOutUser() {
+      await signOut(auth)
+        .then(() => {
+          this.commit("userOut");
+        })
+        .catch((error) => {
+          alert(error);
+        });
     },
   },
   modules: {},

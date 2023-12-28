@@ -4,6 +4,8 @@ import ManagerView from '../views/ManagerView.vue'
 import StadiumView from '../views/StadiumView.vue'
 import QuestionView from '../views/QuestionView.vue'
 import SignInView from '../views/SignInView.vue'
+import FriendsView from '../views/FriendsView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 const routes = [
   {
@@ -33,7 +35,17 @@ const routes = [
     path: '/signIn',
     name: 'signIn',
     component: SignInView
-  }
+  },
+  {
+    path: '/friends',
+    name: 'friends',
+    component: FriendsView
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView
+  },
 ]
 
 const router = createRouter({
