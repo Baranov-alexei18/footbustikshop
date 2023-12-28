@@ -23,6 +23,7 @@
         v-model="password"
         :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
         :type="showPassword ? 'text' : 'password'"
+        :rules="rulesPassword"
         label="Password"
         variant="outlined"
         rounded="xl"
@@ -70,20 +71,22 @@ export default {
       email: "",
       password: "",
       loading: false,
+      rulesPassword: [(v) => !!v || ""],
     };
   },
 
   methods: {
     async authUserInApp() {
-      this.loading = true;
-      await this.$store.dispatch("authUser", {
-        email: this.email,
-        password: this.password,
-      });
+      const valid = await this.$refs.form.validate();
+      if (valid.valid !== false) {
+        this.loading = true;
+        await this.$store.dispatch("authUser", {
+          email: this.email,
+          password: this.password,
+        });
 
-      localStorage.clear();
-
-      this.loading = false;
+        this.loading = false;
+      }
     },
   },
 };

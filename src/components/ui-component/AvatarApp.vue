@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-menu rounded>
         <template v-slot:activator="{ props }">
-          <v-btn icon v-bind="props" >
+          <v-btn icon v-bind="props" :disabled="Object.keys(getUserData).length === 0">
             <v-avatar>
               <i class="fa-solid fa-user-tie"></i>
             </v-avatar>
@@ -29,6 +29,7 @@
                 :value="item"
                 :color="item.color"
                 :to="item.to"
+                :href="item.href"
                 @click="signOut(id)"
               >
                 <template v-slot:prepend>
@@ -65,6 +66,7 @@ export default {
         text: "Выйти",
         icon: "mdi-logout",
         color: "red",
+        href: "/",
       },
     ],
   }),

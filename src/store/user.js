@@ -33,7 +33,6 @@ export default {
     userOut(state) {
       localStorage.removeItem("user_data");
       state.user = null;
-      state.userLocal = null;
     },
   },
   actions: {
@@ -49,6 +48,7 @@ export default {
             error.code == "auth/invalid-email" ||
             error.code == "auth/invalid-credential"
           ) {
+            console.log(error.message);
             const $toast = useToast();
             $toast.open({
               message: "Неправильно введен емайл или пароль",
