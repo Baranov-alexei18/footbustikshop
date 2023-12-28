@@ -7,7 +7,7 @@
       <LogoApp></LogoApp>
     </div>
     <v-form ref="form" v-on:keyup.enter="validate">
-      <div class="">
+      <div>
         <v-text-field
           v-model="form.fullName"
           label="Имя"
@@ -112,13 +112,12 @@ import { auth, db } from "@/firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 
-import { useToast } from "vue-toast-notification";
-import "vue-toast-notification/dist/theme-sugar.css";
+import toastMixin from "@/mixins/toastMixins";
 
 export default {
   name: "RegistrationView",
   components: { LogoApp, DatePickerApp },
-
+  mixins: [toastMixin],
   data() {
     return {
       form: {
@@ -191,30 +190,15 @@ export default {
             date_birthday: user.date_birthday,
             agree: user.agree,
           });
-
-          const $toast = useToast();
-          $toast.open({
-            message: "Новый пользователь создан",
-            position: "top-right",
-            type: "success",
-            duration: 3000,
-          });
+          this.succesToast("Новый пользователь создан");
 
           this.errorEmail = null;
           this.$emit("returnToAuth", true);
           this.$refs.form.reset();
         })
         .catch((error) => {
-          const $toast = useToast();
-
           if (error.code == "auth/email-already-in-use") {
-            $toast.open({
-              message: "Пользователь с данным емайл уже зарегестрирован",
-              position: "top-right",
-              type: "error",
-              duration: 2000,
-            });
-
+            this.errorToast("Пользователь с данным емайл уже зарегестрирован");
             this.errorEmail = "Данный емайл уже существует";
           }
         });
@@ -238,7 +222,9 @@ export default {
 
       const validDate =
         new Date().getFullYear() >= isDate.getFullYear() &&
-        isDate.getFullYear() >= minDateBirthday.getFullYear()? true : false;
+        isDate.getFullYear() >= minDateBirthday.getFullYear()
+          ? true
+          : false;
 
       return validDate;
     },
