@@ -17,7 +17,7 @@
       >
       </v-text-field>
       <div class="d-flex pr-3" style="justify-content: end">
-        <a style="font-size: 10px; z-index: 2" href=""> Забыли пароль?</a>
+        <span style="font-size: 10px; z-index: 2" role="button"> Забыли пароль?</span>
       </div>
       <v-text-field
         v-model="password"
@@ -47,6 +47,7 @@
       </div>
       <span
         style="font-size: 14px; color: blue"
+        role="button"
         @click="this.$emit('toRegistration', true)"
       >
         Создать свой аккаунт

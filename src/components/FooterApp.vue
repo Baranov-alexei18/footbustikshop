@@ -4,9 +4,9 @@
     data-bs-theme="dark"
   >
     <section
-      class="container d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      class="container d-flex justify-center justify-md-space-between p-4 border-bottom"
     >
-      <div class="d-none d-lg-block my-auto">
+      <div class="d-none d-md-flex my-auto">
         <span>Свяжитесь с нами с помощью социальных сетей:</span>
       </div>
       <div>
@@ -65,11 +65,12 @@
       </div>
     </section>
 
-    <div class="text-center p-2" style="background-color: rgba(0, 0, 0, 0.05); font-size: 12px;">
-      © {{new Date().getFullYear()}} Created using the framework:
-      <a class="text-reset" href="https://vuejs.org/"
-        >Vue js</a
-      >
+    <div
+      class="text-center p-2"
+      style="background-color: rgba(0, 0, 0, 0.05); font-size: 12px"
+    >
+      © {{ new Date().getFullYear() }} Created using the framework:
+      <a class="text-reset" href="https://vuejs.org/">Vue js</a>
     </div>
   </footer>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex gap-2 logo" style="max-width: 200px">
+  <div class="d-flex gap-2 logo" style="width: 180px">
     <img
       class="thumb"
       data-pin-no-hover="true"
