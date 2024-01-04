@@ -12,7 +12,7 @@
       base-color="white"
       bg-color="white"
       density="comfortable"
-      @update:focused="searchFocused(arguments)"
+      @update:focused="searchFocused()"
     >
       <template v-slot:append-inner>
         <v-btn
@@ -29,25 +29,27 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
-  data() {
-    return {
-      searchInput: null,
-      activeInput: false,
-    };
-  },
-  methods: {
-    searchFocused(timeFraction) {
+
+
+  setup (){
+    const searchInput = ref(null);
+    const activeInput = ref(false);
+
+    function searchFocused (timeFraction) {
       let inputSearch = document.getElementById("input-search");
-      let active = this.activeInput;
-      this.animation({
+      let active = activeInput.value;
+
+      animation({
         duration: 500,
         timing: function (timeFraction) {
           return timeFraction;
         },
         draw: function (progress) {
             
-          if (active) {
+          if (active == true) {
             let dwidth = 200;
             inputSearch.style.width = dwidth + progress * 760 + "px";
           } else {
@@ -56,9 +58,9 @@ export default {
         },
       });
       return timeFraction;
-    },
+    }
 
-    animation({ timing, draw, duration }) {
+    function animation({ timing, draw, duration }) {
       let start = performance.now();
 
       requestAnimationFrame(function animation(time) {
@@ -72,7 +74,14 @@ export default {
           requestAnimationFrame(animation);
         }
       });
-    },
+    }
+
+    return {
+      searchInput,
+      activeInput,
+      searchFocused,
+      
+    }
   },
 };
 </script>
