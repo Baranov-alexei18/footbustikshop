@@ -1,95 +1,67 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-    <div class="container">
-      <div class="d-none d-md-flex mr-5">
-        <LogoApp />
-      </div>
-
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse ml-15" id="navbarSupportedContent">
-        <div class="d-flex align-items-center navList" id="nav-ul-content">
-          <ul class="navbar-nav align-items-center my-2 mb-lg-0 mx-auto">
-            <li>
-              <router-link class="nav-link" aria-current="page" to="/"
-                >Главная</router-link
-              >
-            </li>
-            <li>
-              <router-link class="nav-link" to="/manager"
-                >Менеджерам</router-link
-              >
-            </li>
-            <li class="d-flex nav-link px-0" style="align-items: center">
-              <router-link class="nav-link pr-1" to="/stadium">
-                Стадионы
-              </router-link>
-              <v-menu open-on-hover>
-                <template v-slot:activator="{ props }">
-                  <v-icon
-                    class="d-none d-md-flex mdi mdi-arrow-down-drop-circle-outline nav-link"
-                    v-bind="props"
-                  >
-                  </v-icon>
-                </template>
-
-                <v-card>
-                  <v-layout>
-                    <v-list>
-                      <v-list-item v-for="region of regions" :key="region">
-                        <router-link class="dropdown-item" to="/stadium">
-                          {{ region }}
-                        </router-link>
-                      </v-list-item>
-                    </v-list>
-                  </v-layout>
-                </v-card>
-              </v-menu>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <SearchField />
-
-      <div class="user-name mr-3">
-        {{ userName }}
-      </div>
-      <div class="d-flex">
-        <v-btn
-          v-if="!getUserData.length && !userName"
-          class="my-auto"
-          to="/signIn"
-          >Войти</v-btn
+  <header>
+    <v-container class="px-0 py-2">
+      <v-row class="justify-space-between mx-0">
+        <v-col class="d-none d-sm-flex logo" sm="3" lg="2">
+          <LogoApp />
+        </v-col>
+        <v-col
+          class="d-none d-md-flex justify-space-between align-center px-0"
+          style="width: 50%"
         >
-        <AvatarApp :user-data="getUserData"></AvatarApp>
-      </div>
-    </div>
-  </nav>
+          <div class="d-flex align-center">
+            <div style="position: absolute">
+              <NavLinksItemsVue />
+            </div>
+          </div>
+
+          <div
+            class="d-inline-block"
+            style="position: relative; max-width: inherit; justify-content: end"
+          >
+            <SearchField :focusInc="true" />
+          </div>
+        </v-col>
+        <v-col
+          cols="12"
+          sm="3"
+          md="2"
+          class="d-flex align-center justify-content-end px-0"
+          style="max-width: 230px;"
+        >
+          <v-col class="user-name p-0">
+            {{ userName }}
+          </v-col>
+          <v-col class="d-flex p-0">
+            <v-btn
+              v-if="!getUserData.length && !userName"
+              class="my-auto p-0"
+              to="/signIn"
+              >Войти</v-btn
+            >
+            <AvatarApp class="ml-1" :user-data="getUserData"></AvatarApp>
+          </v-col>
+        </v-col>
+      </v-row>
+    </v-container>
+  </header>
 </template>
 
 <script>
 import LogoApp from "./ui-component/LogoApp.vue";
 import AvatarApp from "./ui-component/AvatarApp.vue";
-import SearchField from "./ui-component/SearchField.vue"
+import SearchField from "./ui-component/SearchField.vue";
+import NavLinksItemsVue from "./ui-component/NavLinksItems.vue";
 
 import { mapGetters } from "vuex";
 
 export default {
-  components: { LogoApp, AvatarApp, SearchField },
+  components: { LogoApp, AvatarApp, SearchField, NavLinksItemsVue },
   data() {
     return {
       isSearch: false,
       dropDown: false,
+
       regions: [
         "Минск",
         "Минская область",
@@ -110,79 +82,21 @@ export default {
       return this.getUserData?.full_name;
     },
   },
-  methods: {
-    searchFocused(timeFraction) {
-      let inputSearch = document.getElementById("input-search");
-      //let navBar = document.getElementById("nav-ul-content");
-      let flag = false;
-      document.addEventListener("click", function (e) {
-        if (e.target.className == "v-field__input") {
-          flag = true;
-        } else {
-          flag = false;
-        }
-      });
-
-      this.animation({
-        duration: 500,
-        timing: function (timeFraction) {
-          return timeFraction;
-        },
-        draw: function (progress) {
-          if (flag) {
-            let dwidth = 200;
-            inputSearch.style.width = dwidth + progress * 760 + "px";
-          } else {
-            inputSearch.style.width = "200px";
-          }
-        },
-      });
-      return timeFraction;
-    },
-
-    animation({ timing, draw, duration }) {
-      let start = performance.now();
-
-      requestAnimationFrame(function animation(time) {
-        let timeFraction = (time - start) / duration;
-        if (timeFraction > 1) timeFraction = 1;
-
-        let progress = timing(timeFraction);
-        draw(progress);
-
-        if (timeFraction < 1) {
-          requestAnimationFrame(animation);
-        }
-      });
-    },
-  },
 };
 </script>
 
 <style lang="scss">
-.header {
-  background: black;
-}
+@import "../assets/scss/variables.scss";
 
-.logo p {
-  text-shadow: 1px 1px 1px rgb(55, 54, 59), -1px 1px 1px rgb(135, 134, 137);
-  color: rgb(166, 165, 171);
-  transition: all 0.5s;
-  margin: 0;
+header {
+  background-color: $main-black-color;
 }
-
-.logo p:hover {
-  text-shadow: -1px -1px 1px silver, 1px -1px 1px silver;
-  color: white;
-}
-
 .user-name {
+  display: flex;
+  flex-flow: row-reverse;
   color: white;
-}
-
-@media (min-width: 991px) {
-  .navList {
-    position: absolute;
-  }
+  max-width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

@@ -10,7 +10,7 @@
           </v-btn>
         </template>
         <v-card>
-          <v-layout class="wrapper_info_account">
+          <v-layout class="wrapper_info_account" style="max-width: 220px;">
             <v-list>
               <v-list-item
                 prepend-avatar="https://cdn.vuetifyjs.com/images/john.png"
