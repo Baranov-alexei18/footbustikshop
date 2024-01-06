@@ -1,5 +1,5 @@
 <template>
-  <div class="page_home">
+  <div>
     <h1>Главная страница</h1>
   </div>
 </template>
@@ -19,7 +19,4 @@ export default {
 </script>
 
 <style>
-.page_home {
-  min-height: 500px;
-}
 </style>

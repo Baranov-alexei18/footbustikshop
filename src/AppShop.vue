@@ -1,7 +1,9 @@
 <template>
-  <HeaderApp></HeaderApp>
-  <router-view class="view" />
-  <FooterApp></FooterApp>
+  <div class="app">
+    <HeaderApp></HeaderApp>
+    <router-view class="view" />
+    <FooterApp></FooterApp>
+  </div>
 </template>
   
 <script>
@@ -18,7 +20,14 @@ export default {
 </script>
 
 <style lang="scss">
+.app{
+  display: flex;
+  flex-direction: column;
+}
+
 .view {
+  flex-grow: 1;
+  height: 60vh;
   background: conic-gradient(
     at 0% 50%,
     yellow 15%,
@@ -26,5 +35,6 @@ export default {
     #1e90ff 32%
   );
 }
+
 </style>
   
