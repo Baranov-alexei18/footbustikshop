@@ -1,106 +1,133 @@
 <template>
-  <footer
-    class="text-center text-lg-start bg-body-tertiary text-muted"
-    data-bs-theme="dark"
-  >
-    <section
-      class="container d-flex justify-center justify-md-space-between p-4 border-bottom"
-    >
-      <div class="d-none d-md-flex my-auto">
-        <span>Свяжитесь с нами с помощью социальных сетей:</span>
-      </div>
-      <div>
-        <SocialIconsGroup></SocialIconsGroup>
-      </div>
-    </section>
-
-    <section class="container">
-      <div class="text-center text-md-start mt-5">
-        <div class="row mt-3">
-          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4 px-0">
-            <LogoApp class="mb-3 mx-auto mx-lg-0" />
-            <p>Обзор и обсуждение всех стадионов Беларуси в одном месте</p>
-          </div>
-
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <!-- Links -->
-            <h6 class="text-uppercase fw-bold mb-4">Меню</h6>
-            <p>
-              <router-link to="/" class="text-reset">Главная</router-link>
-            </p>
-            <p>
-              <router-link to="/" class="text-reset">Менеджерам</router-link>
-            </p>
-            <p>
-              <router-link to="/" class="text-reset">Стадионы</router-link>
-            </p>
-            <p>
-              <router-link to="/" class="text-reset">FAQ</router-link>
-            </p>
-          </div>
-
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-            <h6 class="text-uppercase fw-bold mb-4">Стек технологий</h6>
-            <p>
-              <router-link to="/" class="text-reset">Vue.js</router-link>
-            </p>
-            <p>
-              <router-link to="/" class="text-reset">Vue-Router</router-link>
-            </p>
-            <p>
-              <router-link to="/" class="text-reset">Axios</router-link>
-            </p>
-            <p>
-              <router-link to="/" class="text-reset">Bootstrap</router-link>
-            </p>
-          </div>
-
-          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-            <h6 class="text-uppercase fw-bold mb-4">Наши контакты</h6>
-            <p>Республика Беларусь, г. Минск</p>
-            <p>alexei-baranov18@mail.ru</p>
-            <p>+375-33-314-66-97</p>
-          </div>
+  <footer>
+    <v-container class="py-0">
+      <v-row
+        class="d-flex justify-center justify-sm-space-between m-0 py-4 border-bottom"
+      >
+        <div class="d-none d-sm-flex my-auto">
+          <span>Свяжитесь с нами с помощью социальных сетей:</span>
         </div>
-      </div>
-    </section>
+        <div>
+          <SocialIconsGroup />
+        </div>
+      </v-row>
 
-    <div
-      class="text-center p-2"
-      style="background-color: rgba(0, 0, 0, 0.05); font-size: 12px"
-    >
-      © {{ new Date().getFullYear() }} Created using the framework:
-      <a class="text-reset" href="https://vuejs.org/">Vue js</a>
-    </div>
+      <v-row class="d-flex px-3">
+        <v-col cols="12" md="3" lg="3" class="d-block px-0 px-auto">
+          <LogoApp class="mb-3 justify-md-start justify-center " />
+          <div class="d-block text-lg-start">
+            Обзор и обсуждение всех стадионов Беларуси в одном месте
+          </div>
+        </v-col>
+
+        <v-col class="d-block d-sm-flex mx-auto">
+          <v-col cols="12" sm="6" class="align-start justify-start mr-auto pt-0">
+            <p class="text-center text-md-start text-uppercase fw-bold m-0">Меню</p>
+            <NavLinksItems style="line-height: 40px" />
+          </v-col>
+
+          <v-col cols="12" sm="6" class="align-end pt-0">
+            <p class="text-center text-md-start text-uppercase fw-bold m-0">Стек технологий</p>
+            <div
+              class="text-center text-md-start  item-technlogies"
+              v-for="(item, id) in itemTechnologies"
+              :key="id"
+            >
+              <a :href="item.href" class="text-reset" style="line-height: 40px"> {{ item.name }}</a>
+            </div>
+          </v-col>
+        </v-col>
+
+        <v-col cols="12" md="3" class="d-flex justify-md-start justify-center pt-4" style="flex-direction: column;">
+          <h6 class="text-center text-md-start text-uppercase fw-bold mb-4">Наши контакты</h6>
+          <p class="text-center text-md-start m-0">Республика Беларусь, г. Минск</p>
+          <div class="d-flex justify-content-center justify-md-start">
+            <a id="mail" href="mailto:alexei-baranov18@mail.ru">
+              alexei-baranov18@mail.ru
+            </a>
+          </div>
+          <p class="text-center text-md-start">+375-33-314-66-97</p>
+        </v-col>
+      </v-row>
+      <v-row
+        class="d-flex justify-center p-1 m-0 border-top"
+        style="font-size: 12px"
+      >
+        <div>
+          © {{ new Date().getFullYear() }} Created using the framework:
+          <a class="text-reset" href="https://vuejs.org/">Vue js</a>
+        </div>
+      </v-row>
+    </v-container>
   </footer>
 </template>
   
 <script>
 import SocialIconsGroup from "@/components/ui-component/SocialIconsGroup.vue";
 import LogoApp from "./ui-component/LogoApp.vue";
+import NavLinksItems from "./ui-component/NavLinksItems.vue";
 
 export default {
   components: {
+    NavLinksItems,
     SocialIconsGroup,
     LogoApp,
+  },
+  data() {
+    return {
+      itemTechnologies: [
+        {
+          name: "Vue.js",
+          href: "https://vuejs.org/",
+        },
+        {
+          name: "Vue-Router",
+          href: "https://router.vuejs.org/",
+        },
+        {
+          name: "VueX",
+          href: "https://vuex.vuejs.org/",
+        },
+        {
+          name: "Vuetify",
+          href: "https://vuetifyjs.com/en/",
+        },
+      ],
+    };
   },
 };
 </script>
   
-  <style>
-.header {
-  background: black;
-}
+<style lang="scss">
+@import "../assets/scss/variables.scss";
 
-.logo p {
-  text-shadow: 1px 1px 1px rgb(55, 54, 59), -1px 1px 1px rgb(135, 134, 137);
-  color: rgb(166, 165, 171);
-  transition: all 0.5s;
-  margin: 0;
-}
+footer {
+  background-color: $main-black-color;
+  color: $main-white-text-color;
 
-.logo p:hover {
-  text-shadow: -1px -1px 1px silver, 1px -1px 1px silver;
-  color: white;
+  .text-reset {
+    text-decoration: none;
+    line-height: 40px;
+  }
+
+  .text-start {
+    line-height: 40px;
+
+  }
+  
+  #mail {
+    text-decoration: none;
+    color: $main-white-text-color;
+  }
+  a:hover {
+    transition: 0.5s;
+    color: $main-nav-item-color !important;
+  }
+  .item-technlogies{
+
+    & :nth-child(1){
+      padding-top: 20px;
+    }
+  }
 }
 </style>

@@ -22,5 +22,6 @@ export default {
 }
 .icon :hover{
   color: white;
+  bottom: 3px;
 }
 </style>
