@@ -11,7 +11,7 @@
         >
           <div class="d-flex align-center">
             <div style="position: absolute">
-              <NavLinksItemsVue />
+              <NavLinksItemsVue class="d-flex pl-10" />
             </div>
           </div>
 
@@ -61,16 +61,6 @@ export default {
     return {
       isSearch: false,
       dropDown: false,
-
-      regions: [
-        "Минск",
-        "Минская область",
-        "Витебская область",
-        "Могилевская область",
-        "Гомельская область",
-        "Брестская область",
-        "Гродненская область",
-      ],
     };
   },
   computed: {
@@ -90,6 +80,7 @@ export default {
 
 header {
   background-color: $main-black-color;
+  color: $main-white-text-color;
 }
 .user-name {
   display: flex;

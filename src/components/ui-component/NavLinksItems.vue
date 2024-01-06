@@ -1,14 +1,14 @@
 <template>
-  <v-list class="d-flex gap-4 nav-list pl-10">
-    <!-- <router-link class="nav-link" aria-current="page" to="/"
-      >Главная</router-link
-    >
-    <router-link class="nav-link" to="/manager">Менеджерам</router-link> -->
-    <div v-for="(item, idx) of navItems" :key="idx" class="d-flex">
-      <router-link class="nav-link" :to="item.path">
+  <v-list class="gap-4 nav-list" style="background-color: transparent;">
+    <div v-for="(item, idx) of navItems" :key="idx" class="d-flex justify-center justify-md-start align-center">
+      <router-link
+        active-class="active-nav-item"
+        class="nav-link"
+        :to="item.path"
+      >
         {{ item.name }}
       </router-link>
-      <v-menu v-if="item.menu" open-on-hover>
+      <v-menu v-if="item.menu" transition="slide-y-transition" open-on-hover>
         <template v-slot:activator="{ props }">
           <v-icon
             class="d-none d-md-flex mdi mdi-arrow-down-drop-circle-outline ml-1"
@@ -38,17 +38,17 @@ export default {
     return {
       navItems: [
         {
-            name: "Главная",
-            path: "/"
+          name: "Главная",
+          path: "/",
         },
         {
-            name: "Менеджерам",
-            path: "/manager"
+          name: "Менеджерам",
+          path: "/manager",
         },
         {
-            name: "Стадионы",
-            path: "/stadium",
-            menu: true,
+          name: "Стадионы",
+          path: "/stadium",
+          menu: true,
         },
       ],
       regions: [
@@ -70,5 +70,15 @@ export default {
 .nav-list {
   background-color: $main-black-color;
   color: white;
+  .active-nav-item {
+    transition: 0.3s;
+    padding-top: 2px;
+    border-bottom: 2px solid green;
+    color: rgb(119, 227, 119);
+  }
+  .nav-link:hover{
+    border-radius: 5px;
+    color: green;
+  }
 }
 </style>
