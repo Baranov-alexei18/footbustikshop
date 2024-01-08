@@ -27,7 +27,7 @@
           </v-col>
 
           <v-col cols="12" sm="6" class="align-end pt-0">
-            <p class="text-center text-md-start text-uppercase fw-bold m-0">Стек технологий</p>
+            <p class="text-center text-md-start text-uppercase fw-bold mx-0 mb-2">Стек технологий</p>
             <div
               class="text-center text-md-start  item-technlogies"
               v-for="(item, id) in itemTechnologies"
@@ -38,10 +38,10 @@
           </v-col>
         </v-col>
 
-        <v-col cols="12" md="3" class="d-flex justify-md-start justify-center pt-4" style="flex-direction: column;">
-          <h6 class="text-center text-md-start text-uppercase fw-bold mb-4">Наши контакты</h6>
-          <p class="text-center text-md-start m-0">Республика Беларусь, г. Минск</p>
-          <div class="d-flex justify-content-center justify-md-start">
+        <v-col cols="12" md="3" class="d-flex justify-md-start justify-center pt-3" style="flex-direction: column;">
+          <p class="text-center text-md-start text-uppercase fw-bold mx-0 mb-4">Наши контакты</p>
+          <p class="text-center text-md-start m-0 mb-2">Республика Беларусь, г. Минск</p>
+          <div class="d-flex justify-content-center justify-md-start mb-2">
             <a id="mail" href="mailto:alexei-baranov18@mail.ru">
               alexei-baranov18@mail.ru
             </a>

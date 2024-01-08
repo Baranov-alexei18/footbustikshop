@@ -11,7 +11,7 @@
         >
           <div class="d-flex align-center">
             <div style="position: absolute">
-              <NavLinksItemsVue class="d-flex pl-10" />
+              <NavLinksItemsVue class="d-flex pl-10" :active-bottom="true" />
             </div>
           </div>
 

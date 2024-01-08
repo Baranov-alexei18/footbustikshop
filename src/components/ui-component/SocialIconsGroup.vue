@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex gap-3 px-auto">
-    <div  class="iconSocial" v-for="(item, id) of icons" :key="id">
+    <div class="iconSocial" v-for="(item, id) of icons" :key="id">
       <SocialIcons
       :nameIcon="item.name"
       :hrefIcon="item.href"
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      sizeIcons: "22px",
+      sizeIcons: "28px",
       icons: [
         {
           name: "mdi mdi-twitter",

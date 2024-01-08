@@ -26,9 +26,9 @@
     color: $main-white-text-color !important;
     transition: all 0.5s;
     margin: 0;
-
     &:hover {
-      color: white;
+      color: grey !important;
+      opacity: 60%;
     }
   }
 }

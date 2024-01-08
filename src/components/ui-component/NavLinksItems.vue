@@ -1,8 +1,14 @@
 <template>
-  <v-list class="gap-4 nav-list" style="background-color: transparent;">
-    <div v-for="(item, idx) of navItems" :key="idx" class="d-flex justify-center justify-md-start align-center">
+  <v-list class="gap-4 nav-list" style="background-color: transparent">
+    <div
+      v-for="(item, idx) of navItems"
+      :key="idx"
+      class="d-flex justify-center justify-md-start align-center"
+    >
       <router-link
-        active-class="active-nav-item"
+        :active-class="
+          activeBottom == true ? 'active-nav-item-bottom' : 'active-nav-item'
+        "
         class="nav-link"
         :to="item.path"
       >
@@ -34,6 +40,7 @@
 
 <script>
 export default {
+  props: ["active-bottom"],
   data() {
     return {
       navItems: [
@@ -70,13 +77,17 @@ export default {
 .nav-list {
   background-color: $main-black-color;
   color: white;
-  .active-nav-item {
+  .active-nav-item-bottom {
     transition: 0.3s;
     padding-top: 2px;
     border-bottom: 2px solid green;
     color: rgb(119, 227, 119);
   }
-  .nav-link:hover{
+  .active-nav-item {
+    transition: 0.3s;
+    color: rgb(119, 227, 119);
+  }
+  .nav-link:hover {
     border-radius: 5px;
     color: green;
   }
