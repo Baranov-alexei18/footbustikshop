@@ -6,6 +6,7 @@ import QuestionView from '../views/QuestionView.vue'
 import SignInView from '../views/SignInView.vue'
 import FriendsView from '../views/FriendsView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import OwnNews from '../components/component/Home/OwnNews.vue'
 
 const routes = [
   {
@@ -16,9 +17,6 @@ const routes = [
   {
     path: '/manager',
     name: 'manager',
-    // route level code-splitting
-    // this generates a separate chunk (manager.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: ManagerView
   },
   {
@@ -45,6 +43,12 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/news/:title',
+    name: 'news',
+    component: OwnNews,
+    props: true
   },
 ]
 
