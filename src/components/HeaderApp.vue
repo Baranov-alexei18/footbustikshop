@@ -1,6 +1,6 @@
 <template>
   <header>
-    <v-container class="px-0 py-2">
+    <v-container class="px-0 py-1">
       <v-row class="justify-space-between mx-0">
         <v-col class="d-none d-sm-flex logo" sm="3" lg="2">
           <LogoApp />

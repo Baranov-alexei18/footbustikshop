@@ -27,7 +27,6 @@ export default {
 
 .view {
   flex-grow: 1;
-  height: 60vh;
   background: conic-gradient(
     at 0% 50%,
     yellow 15%,
